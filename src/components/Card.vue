@@ -33,6 +33,7 @@ export default class Card extends Vue{
 </script>
 
 <style scoped lang="scss">
+    $size: 300px;
 
     ul {
         display: flex;
@@ -41,9 +42,14 @@ export default class Card extends Vue{
         width: 100%;
         list-style: none;
         .card {
-            margin-bottom: 10px;
-            padding: 50px;
-            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            place-content: center;
+            height: $size;
+            width: $size;
+            margin-bottom: 25px;
+            border-radius: 30px;
+            background-color: rgba(45, 131, 245, 0.45);
             cursor: pointer;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.01);
             transition: all 0.3s cubic-bezier(.25,.8,.25,1);
@@ -57,19 +63,20 @@ export default class Card extends Vue{
                 flex-direction: column;
                 align-items: center;
                 text-decoration: none;
-                color:black;
+                color:#707070;
 
                 .card-img-wrapper {
-                    height: 64px;
-                    width: 64px;
+                    height: $size/2;
+                    width: $size/2;
 
                     img {
                         width: 100%;
                         height: 100%;
+                        border-radius: $size/4;
                     }
                 }
                 .card-name {
-                    margin-top: 5px;
+                    margin-top: 10px;
                     text-transform: uppercase;
                 }
             }

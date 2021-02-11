@@ -26,18 +26,25 @@ export default class Home extends Vue {
         {
             id: 1,
             name: 'a manger',
-            image: require('@/assets/icons/eating.svg')
+            image: require('@/assets/cook.png')
         },
         {
             id: 2,
             name: 'ce soir',
-            image: require('@/assets/icons/night.svg')
+            image: require('@/assets/night.png')
         },
         {
             id: 3,
             name: "aujourd'hui",
-            image: require('@/assets/icons/today.png')
+            image: require('@/assets/day.png')
         },
     ]
 }
 </script>
+
+<style lang="scss">
+  .home {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+</style>
