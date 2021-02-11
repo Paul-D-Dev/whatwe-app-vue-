@@ -4,7 +4,7 @@
 
         <ul>
             <li class="card" v-for="card in cards" :key="card.id">
-                <a class="card-link" href="#">
+                <a class="card-link" href="1">
                     <div class="card-img-wrapper">
                         <img :src="card.image" :alt="card.name">
                     </div>
