@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" id="content-event">
         <div class="cards">
         <h1>{{eventName}}</h1>
 
@@ -24,16 +24,20 @@
             <span v-on:click="removeActivity(activity.id)">X</span>
         </li>
       </ul>
+
+      <button v-on:click="activeModal()">ROLL</button>
     </div>
 
   </div>
-  <div class="modal">
+  <div class="modal" id="modal" v-show="openModal">
     <div class="modal-content">
       <p>Phrase</p>
       <div class="img-wrapper">
         <!-- <img :src="selection[0]?.image" :alt="selection[0]?.name"> -->
       </div>
-      <button>Enjoy</button>
+      <button>
+        <router-link to="/">Enjoy</router-link>
+      </button>
     </div>
   </div>
 </template>
@@ -75,14 +79,18 @@ export default class ActivityPage extends Vue {
     ]
 
     selection: IActivity[] = [];
-
-
+    openModal = false;
+    
     addActivities(activity: IActivity) {      
       this.selection.push(activity);
     }
 
     removeActivity(activityId: number) {    
       this.selection.splice(this.selection.findIndex(a => a.id === activityId), 1);
+    }
+
+    activeModal() {
+     this.openModal = true;
     }
 }
 </script>
@@ -155,28 +163,29 @@ export default class ActivityPage extends Vue {
     }
   }
 
-  .modal {
-    height: 100vh;
-    width: 100vw;
-    z-index: 10;
-    position: absolute;
-    top: 0;
-    background-color: black;
-    background-color: rgba(0, 0, 0, 0.4);
-    overflow: hidden;
-    // fill: rgba(36,35,35,0.565);
-    .modal-content {
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border-radius: 30px;
+  .modal{
+      height: 100vh;
+      width: 100vw;
+      z-index: 10;
+      position: absolute;
+      top: 0;
+      background-color: black;
+      background-color: rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      // fill: rgba(36,35,35,0.565);
+      .modal-content {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 30px;
 
-      height: $size;
-      width: $size;
-      background-color: #FFF;
+        height: $size;
+        width: $size;
+        background-color: #FFF;
 
-    }
+      }
+
   }
 
 </style>
