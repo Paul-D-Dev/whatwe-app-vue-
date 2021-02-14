@@ -18,23 +18,27 @@
         </ul>
     </div>
 
-    <div class="selection">
-      <ul>
-        <li v-for="activity in selection" :key="activity.id">
+    <div class="selection" v-show="selection.length > 0">
+      
+      <h2>SELECTION</h2>
+      <ul class="selection__list__images">
+        <li v-for="activity in selection" :key="activity.id" >
             <div class="img-wrapper">
               <img :src="activity.image" :alt="activity.name">
             </div>
-            <span v-on:click="removeActivity(activity.id)">X</span>
+            <span v-on:click="removeActivity(activity.id)"></span>
         </li>
       </ul>
 
-      <button v-on:click="roll()">ROLL</button>
+      <button v-on:click="roll()" class="btn">ROLL</button>
     </div>
 
   </div>
+
+
   <div class="modal" id="modal" v-show="openModal">
     <div class="modal-content">
-      <p>Phrase</p>
+      <p>{{event.name}} you {{rollSelected.name}}</p>
       <div class="modal__content-imgs">
         <div class="img-wrapper">
           <img :src="event.image" :alt="event.name">
@@ -43,7 +47,7 @@
           <img :src="rollSelected?.image" :alt="rollSelected?.name">
         </div>
       </div>
-      <button>
+      <button class="btn">
         <router-link to="/">Enjoy</router-link>
       </button>
     </div>
@@ -115,7 +119,6 @@ export default class ActivityPage extends Vue {
       const activity = this.selection[Math.floor(Math.random() * this.selection.length)];
       this.activeModal();
       this.rollSelected = activity;
-      return activity;
     }
 
     activeModal() {
@@ -145,6 +148,18 @@ export default class ActivityPage extends Vue {
         border-radius: $size/4;
     }
 }
+
+.btn {
+  border: none;
+  background-color: #93BADC;
+  border-radius: 30px;
+  height: 35px;
+  width: 145px;
+  color: #FFF !important;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 
   .home {
     padding-left: 30px;
@@ -199,36 +214,109 @@ export default class ActivityPage extends Vue {
 
   .selection {
 
+    min-width: 300px;
+    min-height: 250px;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.01);
+    display: flex;
+    flex-direction: column;
+
+    .selection__list__images {
+      flex-wrap: wrap;
+      margin-top: 10px;
+
+      li {
+        margin-right: 30px;
+
+        &:nth-of-type(3n) {
+          margin-right: 0px;
+        }
+      }
+
+    }
+
     .img-wrapper {
+      height: 60px;
+      width: 60px;
       filter: drop-shadow(0px 3px 6px rgba(45, 131, 204, 0.302));
     }
+    span {  
+      display: block;
+      height: 12px;
+      width: 12px;
+      position: relative;
+      top: -60px;
+      left: 55px;
+      border-radius: 50px;
+      background-color: #5E9ED5;
+      &::before, &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        border: 0.5px solid #FFF;
+        // height: 1px;
+        // background: #FFF;
+        width: 6px;
+        left: 2px;
+        top: 5px;
+      }
+
+      &::before {
+        transform: rotate(45deg);
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+
+      }
+
+    }
+      .btn {
+        margin-top: auto;
+        margin-left: auto;
+      }
   }
 
   .modal{
       height: 100vh;
       width: 100vw;
-      z-index: 10;
+      background-color: rgba(0, 0, 0, 0.4);
+      
       position: absolute;
       top: 0;
-      background-color: black;
-      background-color: rgba(0, 0, 0, 0.4);
       overflow: hidden;
-      // fill: rgba(36,35,35,0.565);
+      z-index: 10;
+
       .modal-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        height: $size - 25px;
+        width: $size - 25px;
+        padding: 25px;
+        background-color: #EDEDED;
+
         position: relative;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         border-radius: 30px;
 
-        height: $size;
-        width: $size;
-        background-color: #FFF;
-
         .modal__content-imgs {
+          width: 100%;
           display: flex;
           flex-direction: row;
+          justify-content: space-around;
+
+          .img-wrapper {
+            height: 112px;
+            width: 112px;
+          }
         }
+
       }
 
   }
