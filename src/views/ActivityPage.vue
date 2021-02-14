@@ -1,10 +1,13 @@
 <template>
   <div class="home" id="content-event">
         <div class="cards">
-        <h1>{{eventName}}</h1>
+        <h1>{{event.name}}</h1>
 
         <ul>
-            <li class="card" v-for="card in activitiesByEvent" :key="card.id" v-on:click="addActivities(card)">
+            <li class="card" 
+              v-for="card in activitiesByEvent" :key="card.id" 
+              v-on:click="addActivities(card)"
+              v-bind:class="{active : isSelected(card)}">
                 <div class="card-link">
                     <div class="img-wrapper">
                         <img :src="card.image" :alt="card.name">
@@ -25,15 +28,20 @@
         </li>
       </ul>
 
-      <button v-on:click="activeModal()">ROLL</button>
+      <button v-on:click="roll()">ROLL</button>
     </div>
 
   </div>
   <div class="modal" id="modal" v-show="openModal">
     <div class="modal-content">
       <p>Phrase</p>
-      <div class="img-wrapper">
-        <!-- <img :src="selection[0]?.image" :alt="selection[0]?.name"> -->
+      <div class="modal__content-imgs">
+        <div class="img-wrapper">
+          <img :src="event.image" :alt="event.name">
+        </div>
+        <div class="img-wrapper">
+          <img :src="rollSelected?.image" :alt="rollSelected?.name">
+        </div>
       </div>
       <button>
         <router-link to="/">Enjoy</router-link>
@@ -50,7 +58,11 @@ import { IActivity } from '@/shared/_interfaces/interface';
 
 export default class ActivityPage extends Vue {
 
-    eventName = "Ce soir";
+    event = {
+      id: 2,
+      name: 'ce soir',
+      image: require('@/assets/night.png')
+    }
     activitiesByEvent = [
         {
             id: 1,
@@ -79,19 +91,44 @@ export default class ActivityPage extends Vue {
     ]
 
     selection: IActivity[] = [];
+    rollSelected: IActivity = {
+      id: 0,
+      name: '',
+      image: '',
+      eventId: 0,
+    };
     openModal = false;
     
     addActivities(activity: IActivity) {      
-      this.selection.push(activity);
+      if(this.selection.indexOf(activity) === -1){
+        this.selection.push(activity);
+      } else {
+        this.removeActivity(activity.id);
+      }
     }
 
     removeActivity(activityId: number) {    
       this.selection.splice(this.selection.findIndex(a => a.id === activityId), 1);
     }
 
+    roll() {
+      const activity = this.selection[Math.floor(Math.random() * this.selection.length)];
+      this.activeModal();
+      this.rollSelected = activity;
+      return activity;
+    }
+
     activeModal() {
      this.openModal = true;
     }
+
+    /**
+    * return boolean to set class active
+    */
+    isSelected(activity: IActivity) {
+      return this.selection.indexOf(activity) === -1 ? false : true;
+    }
+
 }
 </script>
 
@@ -131,10 +168,14 @@ export default class ActivityPage extends Vue {
             width: $size;
             margin-bottom: 25px;
             border-radius: 30px;
-            background-color: rgba(45, 131, 245, 0.45);
+            // background-color: rgba(45, 131, 245, 0.45);
             cursor: pointer;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.01);
             transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+            &.active {
+            background-color: rgba(45, 131, 245, 0.45);
+            }
 
             &:hover {
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10), 0 0px 0px rgba(0, 0, 0, 0.1);
@@ -184,6 +225,10 @@ export default class ActivityPage extends Vue {
         width: $size;
         background-color: #FFF;
 
+        .modal__content-imgs {
+          display: flex;
+          flex-direction: row;
+        }
       }
 
   }
