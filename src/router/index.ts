@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
-import Activiy from '../views/Activity.vue'
+import Activiy from '../views/ActivityPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {

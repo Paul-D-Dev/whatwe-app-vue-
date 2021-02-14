@@ -25,28 +25,29 @@
         </li>
       </ul>
     </div>
+
+  </div>
+  <div class="modal">
+    <div class="modal-content">
+      <p>Phrase</p>
+      <div class="img-wrapper">
+        <!-- <img :src="selection[0]?.image" :alt="selection[0]?.name"> -->
+      </div>
+      <button>Enjoy</button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import EventService from '@/_services/event.service';
+
 import { Vue } from 'vue-class-component';
-
-  const eventService = new EventService();
-  eventService.fetch('/events')
+import { IActivity } from '@/shared/_interfaces/interface';
 
 
-
-interface Activity {
-  id: number,
-  name: string,
-  image: string,
-  eventId: number
-}
-export default class Home extends Vue {
+export default class ActivityPage extends Vue {
 
     eventName = "Ce soir";
-    activitiesByEvent: Activity[] = [
+    activitiesByEvent = [
         {
             id: 1,
             name: 'sortie entre amis',
@@ -73,9 +74,10 @@ export default class Home extends Vue {
         },
     ]
 
-    selection: Activity[] = [];
+    selection: IActivity[] = [];
 
-    addActivities(activity: Activity) {      
+
+    addActivities(activity: IActivity) {      
       this.selection.push(activity);
     }
 
@@ -102,6 +104,9 @@ export default class Home extends Vue {
   .home {
     padding-left: 30px;
     padding-right: 30px;
+    &.blur {
+      filter: blur(10px);
+    }
   }
 
     ul {
@@ -147,6 +152,30 @@ export default class Home extends Vue {
 
     .img-wrapper {
       filter: drop-shadow(0px 3px 6px rgba(45, 131, 204, 0.302));
+    }
+  }
+
+  .modal {
+    height: 100vh;
+    width: 100vw;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    // fill: rgba(36,35,35,0.565);
+    .modal-content {
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 30px;
+
+      height: $size;
+      width: $size;
+      background-color: #FFF;
+
     }
   }
 

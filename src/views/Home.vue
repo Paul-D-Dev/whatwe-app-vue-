@@ -8,7 +8,7 @@
 import { Options, Vue } from 'vue-class-component';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import Card from '@/components/Card.vue'; // @ is an alias to /src
-import EventService from '@/_services/event.service';
+import EventService from '@/shared/_services/event.service';
 
   const eventService = new EventService();
   eventService.fetch('/events')
