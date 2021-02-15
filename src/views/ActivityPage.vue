@@ -1,9 +1,9 @@
 <template>
   <div class="home" id="content-event">
-        <div class="cards">
+    <div class="cards">
         <h1>{{event.name}}</h1>
 
-        <ul>
+        <ul class="cards__wrapper">
             <li class="card" 
               v-for="card in activitiesByEvent" :key="card.id" 
               v-on:click="addActivities(card)"
@@ -164,12 +164,13 @@ export default class ActivityPage extends Vue {
   .home {
     padding-left: 30px;
     padding-right: 30px;
+    overflow: hidden;
     &.blur {
       filter: blur(10px);
     }
   }
 
-    ul {
+    ul {    
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
@@ -179,14 +180,16 @@ export default class ActivityPage extends Vue {
             display: flex;
             flex-direction: column;
             place-content: center;
-            height: $size;
-            width: $size;
+            height: $size / 2;
+            width: 160px;
             margin-bottom: 25px;
             border-radius: 30px;
-            // background-color: rgba(45, 131, 245, 0.45);
             cursor: pointer;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.01);
             transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+            &:not(:first-of-type()) {
+              margin-left: 30px ;
+            }
 
             &.active {
             background-color: rgba(45, 131, 245, 0.45);
@@ -203,8 +206,14 @@ export default class ActivityPage extends Vue {
                 text-decoration: none;
                 color:#707070;
 
+                .img-wrapper {
+                  height: 100px;
+                  width: 100px;
+                }
+
                 .card-name {
                     margin-top: 10px;
+                    font-size: 10px;
                     text-transform: uppercase;
                 }
             }
@@ -213,7 +222,8 @@ export default class ActivityPage extends Vue {
     }
 
   .selection {
-
+    // position: absolute;
+    // bottom: 0;
     min-width: 300px;
     min-height: 250px;
     padding: 30px;
