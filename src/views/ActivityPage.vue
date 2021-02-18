@@ -10,7 +10,7 @@
               v-bind:class="{active : isSelected(card)}">
                 <div class="card-link">
                     <div class="img-wrapper">
-                        <img :src="card.image" :alt="card.name">
+                        <img :src="'http://localhost:1337' + card.image?.url" :alt="card.name">
                     </div>
                     <span class="card-name">{{card.name}}</span>
                 </div>
@@ -24,7 +24,7 @@
       <ul class="selection__list__images">
         <li v-for="activity in selection" :key="activity.id" >
             <div class="img-wrapper">
-              <img :src="activity.image" :alt="activity.name">
+              <img :src="'http://localhost:1337' + activity.image?.url" :alt="activity.name">
             </div>
             <span v-on:click="removeActivity(activity.id)"></span>
         </li>
@@ -41,10 +41,10 @@
       <p>{{event.name}} you {{rollSelected.name}}</p>
       <div class="modal__content-imgs">
         <div class="img-wrapper">
-          <img :src="event.image" :alt="event.name">
+          <img :src="'http://localhost:1337' + event.image?.url" :alt="event.name">
         </div>
         <div class="img-wrapper">
-          <img :src="rollSelected?.image" :alt="rollSelected?.name">
+          <img :src="'http://localhost:1337' + rollSelected?.image.url" :alt="rollSelected?.name">
         </div>
       </div>
       <button class="btn">
@@ -58,41 +58,13 @@
 
 import { Vue } from 'vue-class-component';
 import { IActivity } from '@/shared/_interfaces/interface';
+import axios from 'axios';
 
 
 export default class ActivityPage extends Vue {
 
-    event = {
-      id: 2,
-      name: 'ce soir',
-      image: require('@/assets/night.png')
-    }
-    activitiesByEvent = [
-        {
-            id: 1,
-            name: 'sortie entre amis',
-            image: require('@/assets/friends.png'),
-            eventId : 1
-        },
-        {
-            id: 2,
-            name: 'tv / series',
-            image: require('@/assets/tv.png'),
-            eventId : 1
-        },
-        {
-            id: 3,
-            name: "restaurant",
-            image: require('@/assets/dinner_restaurant.png'),
-            eventId : 1
-        },
-        {
-            id: 4,
-            name: "console",
-            image: require('@/assets/console.png'),
-            eventId : 1
-        },
-    ]
+    event = {};
+    activitiesByEvent = []
 
     selection: IActivity[] = [];
     rollSelected: IActivity = {
@@ -102,6 +74,20 @@ export default class ActivityPage extends Vue {
       eventId: 0,
     };
     openModal = false;
+
+    mounted () {
+      const idEvent = this.$route.params.idEvent;
+      axios.get('http://localhost:1337/activities?_where[events]=' + idEvent).then(response => {
+        console.log(response.data);
+        this.activitiesByEvent = response.data
+      })
+
+      axios.get('http://localhost:1337/events/' + idEvent).then(res => {
+        console.log(res.data);
+        
+        this.event = res.data
+      })
+    }
     
     addActivities(activity: IActivity) {      
       if(this.selection.indexOf(activity) === -1){

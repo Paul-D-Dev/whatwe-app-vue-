@@ -4,12 +4,12 @@
 
         <ul>
             <li class="card" v-for="card in cards" :key="card.id">
-                <a class="card-link" href="1">
+                <router-link class="card-link" :to="{name: 'Events', params: {idEvent : card.id}}">
                     <div class="card-img-wrapper">
                         <img :src="'http://localhost:1337' + card.image?.url" :alt="card.name">
                     </div>
                     <span class="card-name">{{card.name}}</span>
-                </a>
+                </router-link>
             </li>
         </ul>
     </div>
