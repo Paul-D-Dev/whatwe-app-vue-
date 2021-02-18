@@ -6,39 +6,34 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import Card from '@/components/Card.vue'; // @ is an alias to /src
 import EventService from '@/shared/_services/event.service';
+import axios from 'axios';
 
   const eventService = new EventService();
-  eventService.fetch('/events')
+  eventService.fetch('/events');
 
 @Options({
   components: {
-    HelloWorld,
     Card
   },
 })
 
 export default class Home extends Vue {
 
-  cardEvents = [
-        {
-            id: 1,
-            name: 'a manger',
-            image: require('@/assets/cook.png')
-        },
-        {
-            id: 2,
-            name: 'ce soir',
-            image: require('@/assets/night.png')
-        },
-        {
-            id: 3,
-            name: "aujourd'hui",
-            image: require('@/assets/day.png')
-        },
-    ]
+  cardEvents = [];
+
+    mounted () {
+      axios.get('http://localhost:1337/events').then( r => {
+        console.log(r.data);
+        this.cardEvents = r.data;
+      }).catch(e => {
+        console.log(e);
+        
+      })
+    }
+
+    
 }
 </script>
 

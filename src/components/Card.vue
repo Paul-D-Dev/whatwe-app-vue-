@@ -6,7 +6,7 @@
             <li class="card" v-for="card in cards" :key="card.id">
                 <a class="card-link" href="1">
                     <div class="card-img-wrapper">
-                        <img :src="card.image" :alt="card.name">
+                        <img :src="'http://localhost:1337' + card.image?.url" :alt="card.name">
                     </div>
                     <span class="card-name">{{card.name}}</span>
                 </a>
