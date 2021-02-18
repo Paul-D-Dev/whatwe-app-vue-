@@ -1,7 +1,7 @@
 <template>
   <div class="home">
       <h1>{{title}}</h1>
-      
+
       <div class="cards">
         <ul>
             <li class="card" v-for="card in cardEvents" :key="card.id">
@@ -19,11 +19,8 @@
 
 <script lang="ts">
 import { Vue } from 'vue-class-component';
-import EventService from '@/shared/_services/event.service';
 import axios from 'axios';
 
-  const eventService = new EventService();
-  eventService.fetch('/events');
 
 
 export default class Home extends Vue {
@@ -45,7 +42,7 @@ export default class Home extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
   .home {
     padding-left: 30px;
     padding-right: 30px;

@@ -121,7 +121,7 @@ export default class ActivityPage extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     $size: 300px;
 
     .img-wrapper {
