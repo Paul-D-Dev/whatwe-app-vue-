@@ -2,8 +2,7 @@
   <div class="home">
       <h1>{{title}}</h1>
 
-      <div class="cards">
-        <ul>
+        <ul class="cards">
             <li class="card" v-for="card in cardEvents" :key="card.id">
                 <router-link class="card-link" :to="{name: 'Events', params: {idEvent : card.id}}">
                     <div class="card-img-wrapper">
@@ -13,7 +12,7 @@
                 </router-link>
             </li>
         </ul>
-    </div>
+
   </div>
 </template>
 
@@ -25,7 +24,7 @@ import axios from 'axios';
 
 export default class Home extends Vue {
 
-  title = "Qu'est ce qu'on fait"
+  title = "What do we do"
   cardEvents = [];
 
     mounted () {
@@ -42,18 +41,22 @@ export default class Home extends Vue {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
   .home {
+    padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;
-     $size: 300px;
+    $size: 300px;
 
-    ul {
+    
+
+    .cards {
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
         width: 100%;
         list-style: none;
+        margin-top: 25px;
         .card {
             display: flex;
             flex-direction: column;

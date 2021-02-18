@@ -148,9 +148,11 @@ export default class ActivityPage extends Vue {
 
 
   .home {
+    padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;
     overflow: hidden;
+    height: 100%;
     &.blur {
       filter: blur(10px);
     }
@@ -162,6 +164,7 @@ export default class ActivityPage extends Vue {
         flex-wrap: wrap;
         width: 100%;
         list-style: none;
+        margin-top: 25px;
         .card {
             display: flex;
             flex-direction: column;
@@ -210,15 +213,20 @@ export default class ActivityPage extends Vue {
   .selection {
     // position: absolute;
     // bottom: 0;
+    max-width: 300px;
     min-width: 300px;
     min-height: 250px;
     padding: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
     border-radius: 30px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.01);
     display: flex;
     flex-direction: column;
 
     .selection__list__images {
+      display: flex;
       flex-wrap: wrap;
       margin-top: 10px;
 
