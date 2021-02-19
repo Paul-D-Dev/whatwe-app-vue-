@@ -1,5 +1,6 @@
 <template>
   <div class="home" id="content-event">
+
     <div class="cards">
         <h1>{{event.name}}</h1>
 
@@ -35,7 +36,6 @@
 
   </div>
 
-
   <div class="modal" id="modal" v-show="openModal">
     <div class="modal-content">
       <p>{{event.name}} you {{rollSelected.name}}</p>
@@ -47,11 +47,11 @@
           <img :src="'http://localhost:1337' + rollSelected?.image.url" :alt="rollSelected?.name">
         </div>
       </div>
-      <button class="btn">
+      <button class="btn" v-on:click="closeModal()">
         <router-link to="/">Enjoy</router-link>
       </button>
     </div>
-  </div>
+</div>
 </template>
 
 <script lang="ts">
@@ -78,13 +78,10 @@ export default class ActivityPage extends Vue {
     mounted () {
       const idEvent = this.$route.params.idEvent;
       axios.get('http://localhost:1337/activities?_where[events]=' + idEvent).then(response => {
-        console.log(response.data);
         this.activitiesByEvent = response.data
       })
 
       axios.get('http://localhost:1337/events/' + idEvent).then(res => {
-        console.log(res.data);
-        
         this.event = res.data
       })
     }
@@ -109,12 +106,21 @@ export default class ActivityPage extends Vue {
 
     activeModal() {
      this.openModal = true;
+     const modal = document.getElementById('modal');
+     if(modal) {
+       modal.style.top = `${window.pageYOffset}px`;
+     }
+     document.body.style.overflow = 'hidden';
+    }
+
+    closeModal() {
+      document.body.style.overflow = '';
     }
 
     /**
     * return boolean to set class active
     */
-    isSelected(activity: IActivity) {
+    isSelected(activity: IActivity): boolean {
       return this.selection.indexOf(activity) === -1 ? false : true;
     }
 
@@ -128,12 +134,12 @@ export default class ActivityPage extends Vue {
     height: $size/2;
     width: $size/2;
 
-    img {
-        width: 100%;
-        height: 100%;
-        border-radius: $size/4;
-    }
-}
+      img {
+          width: 100%;
+          height: 100%;
+          border-radius: $size/4;
+      }
+  }
 
 .btn {
   border: none;
@@ -211,8 +217,6 @@ export default class ActivityPage extends Vue {
     }
 
   .selection {
-    // position: absolute;
-    // bottom: 0;
     max-width: 300px;
     min-width: 300px;
     min-height: 250px;
@@ -288,8 +292,6 @@ export default class ActivityPage extends Vue {
       background-color: rgba(0, 0, 0, 0.4);
       
       position: absolute;
-      top: 0;
-      overflow: hidden;
       z-index: 10;
 
       .modal-content {

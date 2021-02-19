@@ -29,11 +29,9 @@ export default class Home extends Vue {
 
     mounted () {
       axios.get('http://localhost:1337/events').then( r => {
-        console.log(r.data);
         this.cardEvents = r.data;
       }).catch(e => {
         console.log(e);
-        
       })
     }
 
