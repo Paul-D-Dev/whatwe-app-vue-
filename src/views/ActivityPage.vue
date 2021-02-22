@@ -197,6 +197,7 @@ export default class ActivityPage extends Vue {
   }
 
   .form__activity__custom {
+    margin-top: 25px;
     border-radius: 30px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.01);
     padding-left: 20px;
