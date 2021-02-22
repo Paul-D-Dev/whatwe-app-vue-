@@ -1,17 +1,15 @@
 <template>
   <div class="home" id="content-event">
 
-    <form @submit.prevent="onSubmit">
-      <label for="activity_name">
-        Add an activity
-        <input type="text" v-model="activityName">
-      </label>
-      <button>ADD</button>
-    </form>
 
 
     <div class="cards">
         <h1>{{event.name}}</h1>
+
+        <form @submit.prevent="onSubmitCustomActivity" class="form__activity__custom">
+          <input type="text" placeholder="Need more activity ?" v-model="activityName">
+          <button :class="activityName !== '' ? 'active' : ''">ADD</button>
+        </form>
 
         <ul class="cards__wrapper">
             <li class="card" 
@@ -31,13 +29,19 @@
     <div class="selection" v-show="selection.length > 0">
       
       <h2>SELECTION</h2>
-      <ul class="selection__list__images">
-        <li v-for="activity in selection" :key="activity.id" >
-            <div class="img-wrapper" v-if="activity.image">
+      <ul class="selection__list">
+        <li class="selection__item" v-for="activity in selection" :key="activity.id" >
+          <div class="selection__activity-image" v-if="activity.image">
+            <div class="img-wrapper">
               <img :src="'http://localhost:1337' + activity.image?.url" :alt="activity.name">
             </div>
-            <p v-else>{{activity}}</p>
-            <span v-on:click="removeActivity(activity)"></span>
+            <span class="selection__activity-image-close" v-on:click="removeActivity(activity)"></span>
+          </div>
+
+          <div class="selection__custom" v-else>
+            <span class="selection__custom-name">{{activity}}</span>
+            <span class="selection__custom-close" @click="removeActivity(activity)"></span>
+          </div>
         </li>
       </ul>
 
@@ -50,14 +54,14 @@
     <div class="modal-content">
       <p>{{event.name}} you {{rollSelected.name}}</p>
       <div class="modal__content-imgs">
-        <div class="img-wrapper">
+        <div class="img-wrapper modal__content__event">
           <img :src="'http://localhost:1337' + event.image?.url" :alt="event.name">
         </div>
-        <div class="img-wrapper" v-if="rollSelected?.image">
+        <div class="img-wrapper modal__content__activity" v-if="rollSelected?.image">
           <img :src="'http://localhost:1337' + rollSelected?.image.url" :alt="rollSelected?.name">
         </div>
         <div v-else>
-          {{rollSelected}}
+        <span class="modal__content__custom">{{rollSelected}}</span>
         </div>
       </div>
       <button class="btn" v-on:click="closeModal()">
@@ -108,8 +112,10 @@ export default class ActivityPage extends Vue {
       }
     }
 
-    onSubmit() {
-      this.selection.push(this.activityName);       
+    onSubmitCustomActivity() {
+      if(this.activityName !== '') {
+        this.selection.push(this.activityName);       
+      }
       this.activityName = '';
     }
 
@@ -123,9 +129,7 @@ export default class ActivityPage extends Vue {
     }
 
     roll() {
-      
       const activity = this.selection[Math.floor(Math.random() * this.selection.length)];
-      console.log(activity);
       this.activeModal();
       this.rollSelected = activity;
     }
@@ -187,6 +191,43 @@ export default class ActivityPage extends Vue {
     height: 100%;
     &.blur {
       filter: blur(10px);
+    }
+  }
+
+  .form__activity__custom {
+    border-radius: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.01);
+    padding-left: 20px;
+    display: flex;
+    justify-content: space-between;
+
+    input {
+      width: 200px;
+      border: none;
+      outline: none;
+      color: #93BADC;
+
+      &::placeholder {
+        color : #707070;
+      }
+
+      // &:focus ~ button {
+      //   background-color: rgba(45, 131, 245, 0.45);
+      // }
+    }
+
+    button {
+      border: none;
+      border-radius: 50px;
+      height: 35px;
+      width: 70px;
+      outline: none;
+      color: #707070;
+
+      &.active {
+        background-color: #93BADC;
+        color: #FFF;
+      }
     }
   }
 
@@ -255,16 +296,59 @@ export default class ActivityPage extends Vue {
     display: flex;
     flex-direction: column;
 
-    .selection__list__images {
+    .selection__list {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       margin-top: 10px;
+      
 
-      li {
+      .selection__item {
+        margin-top: 10px;
         margin-right: 30px;
+        filter: drop-shadow(0px 3px 6px rgba(45, 131, 204, 0.302));
+
 
         &:nth-of-type(3n) {
           margin-right: 0px;
+        }
+
+        .selection__custom{
+          display: flex;
+          border-radius: 30px;
+          box-shadow: (0px 3px 6px rgba(45, 131, 204, 0.302));
+
+          .selection__custom-name {
+            padding-left: 20px;
+            padding-right: 20px;
+          }
+          .selection__custom-close{
+            position: relative;
+            border-radius: 50px;
+            height: 22px;
+            width: 22px;
+            background: #5E9ED5;
+            
+
+          &::before, &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            border: 0.5px solid #FFF;
+            width: 9px;
+            left: 6px;
+            top: 10px;
+          }
+
+          &::before {
+            transform: rotate(45deg);
+          }
+
+          &::after {
+            transform: rotate(-45deg);
+
+          }
+          }
         }
       }
 
@@ -273,9 +357,8 @@ export default class ActivityPage extends Vue {
     .img-wrapper {
       height: 60px;
       width: 60px;
-      filter: drop-shadow(0px 3px 6px rgba(45, 131, 204, 0.302));
     }
-    span {  
+    .selection__activity-image-close {  
       display: block;
       height: 12px;
       width: 12px;
@@ -289,8 +372,6 @@ export default class ActivityPage extends Vue {
         display: block;
         position: absolute;
         border: 0.5px solid #FFF;
-        // height: 1px;
-        // background: #FFF;
         width: 6px;
         left: 2px;
         top: 5px;
