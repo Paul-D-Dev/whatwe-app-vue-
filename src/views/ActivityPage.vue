@@ -1,6 +1,15 @@
 <template>
   <div class="home" id="content-event">
 
+    <form @submit.prevent="onSubmit">
+      <label for="activity_name">
+        Add an activity
+        <input type="text" v-model="activityName">
+      </label>
+      <button>ADD</button>
+    </form>
+
+
     <div class="cards">
         <h1>{{event.name}}</h1>
 
@@ -24,10 +33,11 @@
       <h2>SELECTION</h2>
       <ul class="selection__list__images">
         <li v-for="activity in selection" :key="activity.id" >
-            <div class="img-wrapper">
+            <div class="img-wrapper" v-if="activity.image">
               <img :src="'http://localhost:1337' + activity.image?.url" :alt="activity.name">
             </div>
-            <span v-on:click="removeActivity(activity.id)"></span>
+            <p v-else>{{activity}}</p>
+            <span v-on:click="removeActivity(activity)"></span>
         </li>
       </ul>
 
@@ -43,8 +53,11 @@
         <div class="img-wrapper">
           <img :src="'http://localhost:1337' + event.image?.url" :alt="event.name">
         </div>
-        <div class="img-wrapper">
+        <div class="img-wrapper" v-if="rollSelected?.image">
           <img :src="'http://localhost:1337' + rollSelected?.image.url" :alt="rollSelected?.name">
+        </div>
+        <div v-else>
+          {{rollSelected}}
         </div>
       </div>
       <button class="btn" v-on:click="closeModal()">
@@ -60,13 +73,13 @@ import { Vue } from 'vue-class-component';
 import { IActivity } from '@/shared/_interfaces/interface';
 import axios from 'axios';
 
-
+// TODO add input 
 export default class ActivityPage extends Vue {
 
     event = {};
     activitiesByEvent = []
 
-    selection: IActivity[] = [];
+    selection: any[] = [];
     rollSelected: IActivity = {
       id: 0,
       name: '',
@@ -74,6 +87,7 @@ export default class ActivityPage extends Vue {
       eventId: 0,
     };
     openModal = false;
+    activityName = '';
 
     mounted () {
       const idEvent = this.$route.params.idEvent;
@@ -86,7 +100,7 @@ export default class ActivityPage extends Vue {
       })
     }
     
-    addActivities(activity: IActivity) {      
+    addActivities(activity: any) {      
       if(this.selection.indexOf(activity) === -1){
         this.selection.push(activity);
       } else {
@@ -94,12 +108,24 @@ export default class ActivityPage extends Vue {
       }
     }
 
-    removeActivity(activityId: number) {    
-      this.selection.splice(this.selection.findIndex(a => a.id === activityId), 1);
+    onSubmit() {
+      this.selection.push(this.activityName);       
+      this.activityName = '';
+    }
+
+
+    removeActivity(activity: any) {    
+      if (activity.id) {
+        this.selection.splice(this.selection.findIndex(a => a.id === activity.id), 1);
+      } else {
+        this.selection.splice(this.selection.findIndex(item => item === activity), 1);
+      }
     }
 
     roll() {
+      
       const activity = this.selection[Math.floor(Math.random() * this.selection.length)];
+      console.log(activity);
       this.activeModal();
       this.rollSelected = activity;
     }
