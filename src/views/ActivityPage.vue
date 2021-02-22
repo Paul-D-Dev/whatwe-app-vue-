@@ -45,7 +45,9 @@
         </li>
       </ul>
 
-      <button v-on:click="roll()" class="btn">ROLL</button>
+      <div class="selection__btn__wrapper">
+        <button v-on:click="roll()" class="selection__btn btn">ROLL</button>
+      </div>
     </div>
 
   </div>
@@ -387,10 +389,14 @@ export default class ActivityPage extends Vue {
       }
 
     }
-      .btn {
+
+    .selection__btn__wrapper {
         margin-top: auto;
         margin-left: auto;
+      .selection__btn {
+        margin-top: 30px;
       }
+    }
   }
 
   .modal{
