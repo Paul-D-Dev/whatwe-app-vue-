@@ -62,8 +62,8 @@
         <div class="img-wrapper modal__content__activity" v-if="rollSelected?.image">
           <img :src="'http://localhost:1337' + rollSelected?.image.url" :alt="rollSelected?.name">
         </div>
-        <div v-else>
-        <span class="modal__content__custom">{{rollSelected}}</span>
+        <div class="modal__content__custom" v-else>
+        <span >{{rollSelected}}</span>
         </div>
       </div>
       <button class="btn" v-on:click="closeModal()">
@@ -436,6 +436,10 @@ export default class ActivityPage extends Vue {
           }
         }
 
+        .modal__content__custom {
+          display: flex;
+          align-items: center;
+        }
       }
 
   }
