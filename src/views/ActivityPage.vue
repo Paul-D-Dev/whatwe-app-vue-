@@ -173,16 +173,20 @@ export default class ActivityPage extends Vue {
       }
   }
 
-.btn {
-  border: none;
-  background-color: #93BADC;
-  border-radius: 30px;
-  height: 35px;
-  width: 145px;
-  color: #FFF !important;
-  text-decoration: none;
-  text-transform: uppercase;
-}
+  button {
+    cursor: pointer;
+  }
+
+  .btn {
+    border: none;
+    background-color: #93BADC;
+    border-radius: 30px;
+    height: 35px;
+    width: 145px;
+    color: #FFF !important;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
 
 
   .home {
@@ -326,6 +330,7 @@ export default class ActivityPage extends Vue {
             padding-right: 20px;
           }
           .selection__custom-close{
+            cursor: pointer;
             position: relative;
             border-radius: 50px;
             height: 22px;
@@ -362,6 +367,7 @@ export default class ActivityPage extends Vue {
       width: 60px;
     }
     .selection__activity-image-close {  
+      cursor: pointer;
       display: block;
       height: 12px;
       width: 12px;
