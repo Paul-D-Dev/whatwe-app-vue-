@@ -109,7 +109,7 @@ export default class ActivityPage extends Vue {
       if(this.selection.indexOf(activity) === -1){
         this.selection.push(activity);
       } else {
-        this.removeActivity(activity.id);
+        this.removeActivity(activity);
       }
     }
 
@@ -121,7 +121,7 @@ export default class ActivityPage extends Vue {
     }
 
 
-    removeActivity(activity: any) {    
+    removeActivity(activity: any) {        
       if (activity.id) {
         this.selection.splice(this.selection.findIndex(a => a.id === activity.id), 1);
       } else {
