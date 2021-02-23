@@ -18,7 +18,7 @@
               v-bind:class="{active : isSelected(card)}">
                 <div class="card-link">
                     <div class="img-wrapper">
-                        <img :src="'https://wwd-api.herokuapp.com' + card.image?.url" :alt="card.name">
+                        <img :src="urlAPI + card.image?.url" :alt="card.name">
                     </div>
                     <span class="card-name">{{card.name}}</span>
                 </div>
@@ -33,7 +33,7 @@
         <li class="selection__item" v-for="activity in selection" :key="activity.id" >
           <div class="selection__activity-image" v-if="activity.image">
             <div class="img-wrapper">
-              <img :src="'https://wwd-api.herokuapp.com' + activity.image?.url" :alt="activity.name">
+              <img :src="urlAPI + activity.image?.url" :alt="activity.name">
             </div>
             <span class="selection__activity-image-close" v-on:click="removeActivity(activity)"></span>
           </div>
@@ -57,18 +57,16 @@
       <p>{{event.name}} you {{rollSelected.name}}</p>
       <div class="modal__content-imgs">
         <div class="img-wrapper modal__content__event">
-          <img :src="'https://wwd-api.herokuapp.com' + event.image?.url" :alt="event.name">
+          <img :src="urlAPI + event.image?.url" :alt="event.name">
         </div>
         <div class="img-wrapper modal__content__activity" v-if="rollSelected?.image">
-          <img :src="'https://wwd-api.herokuapp.com' + rollSelected?.image.url" :alt="rollSelected?.name">
+          <img :src="urlAPI + rollSelected?.image.url" :alt="rollSelected?.name">
         </div>
         <div class="modal__content__custom" v-else>
         <span >{{rollSelected}}</span>
         </div>
       </div>
-      <button class="btn" v-on:click="closeModal()">
-        <router-link to="/">Enjoy</router-link>
-      </button>
+      <button class="btn" v-on:click="closeModal()" >Enjoy</button>
     </div>
 </div>
 </template>
@@ -78,10 +76,11 @@
 import { Vue } from 'vue-class-component';
 import { IActivity } from '@/shared/_interfaces/interface';
 import axios from 'axios';
-
+import {urlAPI} from '@/url';
 // TODO add input 
 export default class ActivityPage extends Vue {
 
+    readonly urlAPI = urlAPI;
     event = {};
     activitiesByEvent = []
 
@@ -97,11 +96,11 @@ export default class ActivityPage extends Vue {
 
     mounted () {
       const idEvent = this.$route.params.idEvent;
-      axios.get('https://wwd-api.herokuapp.com/activities?_where[events]=' + idEvent).then(response => {
+      axios.get(urlAPI + '/activities?_where[events]=' + idEvent).then(response => {
         this.activitiesByEvent = response.data
       })
 
-      axios.get('https://wwd-api.herokuapp.com/events/' + idEvent).then(res => {
+      axios.get(urlAPI + '/events/' + idEvent).then(res => {
         this.event = res.data
       })
     }
@@ -147,6 +146,7 @@ export default class ActivityPage extends Vue {
 
     closeModal() {
       document.body.style.overflow = '';
+      this.$router.push('/')
     }
 
     /**
@@ -175,6 +175,7 @@ export default class ActivityPage extends Vue {
 
   button {
     cursor: pointer;
+    outline: none;
   }
 
   .btn {
