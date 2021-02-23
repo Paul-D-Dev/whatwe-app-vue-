@@ -6,7 +6,7 @@
             <li class="card" v-for="card in cardEvents" :key="card.id">
                 <router-link class="card-link" :to="{name: 'Events', params: {idEvent : card.id}}">
                     <div class="card-img-wrapper">
-                        <img :src="'https://wwd-api.herokuapp.com/' + card.image?.url" :alt="card.name">
+                        <img :src="'https://wwd-api.herokuapp.com' + card.image?.url" :alt="card.name">
                     </div>
                     <span class="card-name">{{card.name}}</span>
                 </router-link>

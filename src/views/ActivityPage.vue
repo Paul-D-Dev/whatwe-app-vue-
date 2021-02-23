@@ -18,7 +18,7 @@
               v-bind:class="{active : isSelected(card)}">
                 <div class="card-link">
                     <div class="img-wrapper">
-                        <img :src="'https://wwd-api.herokuapp.com/' + card.image?.url" :alt="card.name">
+                        <img :src="'https://wwd-api.herokuapp.com' + card.image?.url" :alt="card.name">
                     </div>
                     <span class="card-name">{{card.name}}</span>
                 </div>
@@ -33,7 +33,7 @@
         <li class="selection__item" v-for="activity in selection" :key="activity.id" >
           <div class="selection__activity-image" v-if="activity.image">
             <div class="img-wrapper">
-              <img :src="'https://wwd-api.herokuapp.com/' + activity.image?.url" :alt="activity.name">
+              <img :src="'https://wwd-api.herokuapp.com' + activity.image?.url" :alt="activity.name">
             </div>
             <span class="selection__activity-image-close" v-on:click="removeActivity(activity)"></span>
           </div>
@@ -57,10 +57,10 @@
       <p>{{event.name}} you {{rollSelected.name}}</p>
       <div class="modal__content-imgs">
         <div class="img-wrapper modal__content__event">
-          <img :src="'https://wwd-api.herokuapp.com/' + event.image?.url" :alt="event.name">
+          <img :src="'https://wwd-api.herokuapp.com' + event.image?.url" :alt="event.name">
         </div>
         <div class="img-wrapper modal__content__activity" v-if="rollSelected?.image">
-          <img :src="'https://wwd-api.herokuapp.com/' + rollSelected?.image.url" :alt="rollSelected?.name">
+          <img :src="'https://wwd-api.herokuapp.com' + rollSelected?.image.url" :alt="rollSelected?.name">
         </div>
         <div class="modal__content__custom" v-else>
         <span >{{rollSelected}}</span>
