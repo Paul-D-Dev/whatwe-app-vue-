@@ -28,7 +28,7 @@ export default class Home extends Vue {
   cardEvents = [];
 
     mounted () {
-      axios.get('https://wwd-api.herokuapp.com//events').then( r => {
+      axios.get('https://wwd-api.herokuapp.com/events').then( r => {
         this.cardEvents = r.data;
       }).catch(e => {
         console.log(e);

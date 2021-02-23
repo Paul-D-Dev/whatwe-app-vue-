@@ -97,11 +97,11 @@ export default class ActivityPage extends Vue {
 
     mounted () {
       const idEvent = this.$route.params.idEvent;
-      axios.get('https://wwd-api.herokuapp.com//activities?_where[events]=' + idEvent).then(response => {
+      axios.get('https://wwd-api.herokuapp.com/activities?_where[events]=' + idEvent).then(response => {
         this.activitiesByEvent = response.data
       })
 
-      axios.get('https://wwd-api.herokuapp.com//events/' + idEvent).then(res => {
+      axios.get('https://wwd-api.herokuapp.com/events/' + idEvent).then(res => {
         this.event = res.data
       })
     }
